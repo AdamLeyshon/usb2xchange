@@ -1,0 +1,29 @@
+[package]
+name = "xchange-ublk"
+description = "Expose SCSI disks behind an Adaptec USB2Xchange as Linux block devices, via ublk"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+xchange-scsi = { path = "../xchange-scsi" }
+clap.workspace = true
+libc = "0.2"
+# Optional so a default build needs neither libublk nor the libclang its
+# bindgen step depends on. See the `ublk` feature below.
+libublk = { version = "0.4.7", optional = true }
+
+[features]
+default = []
+# Build the ublk target. Off by default because `UBLK_CMD_ADD_DEV` currently
+# NULL-dereferences the kernel on 6.17.0-35-generic; see
+# docs/ublk-depth1-oops.md. Turn it on to retest against a fixed kernel:
+#
+#   cargo build --release -p xchange-ublk --features ublk
+ublk = ["dep:libublk"]
+
+[[bin]]
+name = "xchange-ublk"
+path = "src/main.rs"
+required-features = ["ublk"]

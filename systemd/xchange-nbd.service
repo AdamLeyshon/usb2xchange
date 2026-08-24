@@ -1,0 +1,36 @@
+[Unit]
+Description=Adaptec USB2Xchange SCSI to NBD bridge
+# Documentation=https://github.com/YOUR-USER/usb2xchange
+After=systemd-udevd.service
+
+[Service]
+Type=simple
+
+# Read-only, deliberately. The media these adapters read is decades old and
+# often the only surviving copy, and mounting a filesystem read-write modifies
+# it whether or not anything is written to it: journals are replayed, dirty bits
+# cleared, access times updated.
+#
+# Do not add --writable to the line below. This file is overwritten by
+# scripts/install.sh, so the change would be lost on the next install. Use a
+# drop-in, which survives:
+#
+#   sudo systemctl edit xchange-nbd
+#
+#   [Service]
+#   ExecStart=
+#   ExecStart=/usr/local/bin/xchange-nbd --all --writable
+#
+# The empty ExecStart= is required, or systemd appends to the command rather
+# than replacing it.
+#
+# The nbd module is loaded by xchange-nbd itself, after it has scanned the bus,
+# so that it gets exactly as many device nodes as there are devices to serve.
+ExecStart=/usr/local/bin/xchange-nbd --all
+
+# Do not come back automatically: if the adapter has hung, restarting into a
+# hung adapter achieves nothing, and only a power cycle clears it.
+Restart=no
+
+[Install]
+WantedBy=multi-user.target

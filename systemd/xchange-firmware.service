@@ -1,0 +1,12 @@
+[Unit]
+Description=Start the Adaptec USB2Xchange firmware
+# Documentation=https://github.com/YOUR-USER/usb2xchange
+# Only meaningful while the adapter is sitting in its pre-firmware state.
+BindsTo=dev-bus-usb-003f3-2002.device
+
+[Service]
+Type=oneshot
+RemainAfterExit=no
+# The adapter re-enumerates as 03f3:2003 when its firmware starts, which fires
+# the second udev rule and brings up xchange-nbd. Nothing to do here but wake it.
+ExecStart=/usr/local/bin/xchange-fw load --firmware /usr/local/share/adaptec/Adpusbld.sys

@@ -1,0 +1,22 @@
+# Adaptec USBXchange / USB2Xchange USB-to-SCSI adapters.
+#
+# Install with scripts/install.sh, or by hand:
+#   sudo cp 60-adaptec-usbxchange.rules /etc/udev/rules.d/
+#   sudo udevadm control --reload-rules
+#
+# On power-up these present an empty Cypress EZ-USB with only a vendor and
+# product ID in EEPROM. They do nothing until their firmware is started, after
+# which they re-enumerate under a different product ID.
+
+# Let the plugdev group reach the adapter in either state, so the tools run
+# without root.
+SUBSYSTEM=="usb", ATTR{idVendor}=="03f3", ATTR{idProduct}=="2000|2001|2002|2003", MODE="0664", GROUP="plugdev"
+
+# Asleep: start its firmware. It re-enumerates as 2001/2003, which fires the
+# rule below.
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="03f3", ATTR{idProduct}=="2000|2002", \
+  TAG+="systemd", ENV{SYSTEMD_WANTS}="xchange-firmware.service"
+
+# Awake: serve whatever is on the SCSI bus.
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="03f3", ATTR{idProduct}=="2001|2003", \
+  TAG+="systemd", ENV{SYSTEMD_WANTS}="xchange-nbd.service"

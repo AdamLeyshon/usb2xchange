@@ -1,0 +1,15 @@
+[package]
+name = "xchange-cli"
+description = "Command line access to SCSI devices behind an Adaptec USB2Xchange"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+xchange-scsi = { path = "../xchange-scsi" }
+clap.workspace = true
+
+[[bin]]
+name = "xchange"
+path = "src/main.rs"

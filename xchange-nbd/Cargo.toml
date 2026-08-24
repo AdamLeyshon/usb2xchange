@@ -1,0 +1,16 @@
+[package]
+name = "xchange-nbd"
+description = "Expose SCSI disks behind an Adaptec USB2Xchange as Linux block devices via NBD"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+xchange-scsi = { path = "../xchange-scsi" }
+clap.workspace = true
+libc = "0.2"
+
+[[bin]]
+name = "xchange-nbd"
+path = "src/main.rs"

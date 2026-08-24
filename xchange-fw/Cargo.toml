@@ -1,0 +1,17 @@
+[package]
+name = "xchange-fw"
+description = "Firmware loader for the Adaptec USBXchange / USB2Xchange USB-to-SCSI adapters"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+nusb.workspace = true
+thiserror.workspace = true
+clap.workspace = true
+sha2.workspace = true
+
+[[bin]]
+name = "xchange-fw"
+path = "src/main.rs"

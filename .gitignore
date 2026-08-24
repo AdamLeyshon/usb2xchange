@@ -1,0 +1,12 @@
+/target
+
+# Adaptec's firmware and documentation. Neither is ours to redistribute, and
+# xchange-fw reads the firmware straight out of the driver anyway.
+firmware/*.fw
+reference/*.pdf
+reference/*.sys
+reference/*.exe
+
+# Conformance journals are specific to whatever was on the bus at the time.
+conformance.log
+*.log
