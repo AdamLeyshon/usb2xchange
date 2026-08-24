@@ -278,13 +278,11 @@ udisks2-based tools list them normally, and `fdisk`, `sfdisk` and `cfdisk` work.
 
 ## Building the ublk target
 
-An alternative to NBD exists but is disabled, because `UBLK_CMD_ADD_DEV`
-NULL-dereferences the kernel on 6.17.0-35-generic with stock parameters. See
-[docs/ublk-depth1-oops.md](docs/ublk-depth1-oops.md).
+Temporarily broken, needs fixing.
 
-```sh
-cargo build --release -p xchange-ublk --features ublk
-```
+~~An alternative to NBD exists but is disabled, because `UBLK_CMD_ADD_DEV`
+NULL-dereferences the kernel on 6.17.0-35-generic with stock parameters~~
+
 
 ## Further reading
 
